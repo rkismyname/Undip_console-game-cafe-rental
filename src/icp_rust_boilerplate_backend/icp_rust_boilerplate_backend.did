@@ -1,3 +1,19 @@
+type Console = record { id : nat64; occupied : bool; name : text };
+type Error = variant { NotFound : record { msg : text } };
+type Rental = record {
+  id : nat64;
+  duration : nat64;
+  player : text;
+  start_time : nat64;
+  console_id : nat64;
+};
+type Result = variant { Ok : Console; Err : Error };
+type Result_1 = variant { Ok : Rental; Err : Error };
 service : {
-    "greet": (text) -> (text) query;
+  add_console : (text) -> (opt Console);
+  add_rental : (nat64, text, nat64, nat64) -> (opt Rental);
+  get_console : (nat64) -> (Result) query;
+  get_rental : (nat64) -> (Result_1) query;
+  update_console : (nat64, text, bool) -> (Result);
+  update_rental : (nat64, nat64, text, nat64, nat64) -> (Result_1);
 }
